@@ -1,0 +1,139 @@
+{# src/CM/UserBundle/Resources/views/layout.html.twig #}
+
+{# On étend notre layout #}
+{% extends "::index.html.twig" %}
+
+{# Dans notre layout, il faut définir le block body #}
+{% block contentBody %}
+  	{# On affiche les messages flash que définissent les contrôleurs du bundle #}
+  	{% for key, messages in app.session.flashbag.all() %}
+    	{% for message in messages %}
+        	<div class="alert alert-{{ key }}">
+          		{{ message|trans({}, 'FOSUserBundle') }}
+        	</div>
+    	{% endfor %}
+	{% endfor %}
+
+  	{# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
+  	{% block fos_user_content %}
+  	{% endblock fos_user_content %}
+    <!-- Site footer -->
+    <footer class="footer">
+        <p>&copy; {{ 'now'|date('Y') }} ClientManager</p>
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function(){
+            $(".loading").hide();
+            $('#fos_user_registration_form_email').keyup(function() {
+                var motcle = $("#fos_user_registration_form_email").val();
+
+                if(motcle.indexOf('@') >= 0 && motcle.indexOf('.') >= 0){
+                    $(".loading").show();
+                    var DATA = 'motcle=' + motcle;
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('cm_platform_rechercher_by_email')}}",
+                        data: DATA,
+                        cache: false,
+                        success: function(data){
+                            $('#resultats_recherche').html(data);
+                            $(".loading").hide();
+                        },
+                        statusCode: {
+                            500: function() {
+                                $(".loading").hide();
+                            }
+                        }
+                    });
+                }
+
+                
+            });
+        });
+        function addInfos(id) {
+            var DATA = 'id=' + id;
+            $.ajax({
+                type: "POST",
+                url: "{{ path('cm_platform_rechercher_by_id')}}",
+                data: DATA,
+                cache: false,
+                success: function(data){
+                    var queryParameters = {
+                        nom: document.getElementById("fos_user_registration_form_nom").value = data.nom,
+                        prenom: document.getElementById("fos_user_registration_form_prenom").value = data.prenom,
+                        adresse: document.getElementById("fos_user_registration_form_adresse").value = data.adresse,
+                        telephone: document.getElementById("fos_user_registration_form_telephone").value = data.telephone,
+                        website: document.getElementById("fos_user_registration_form_webSite").value = data.website
+                    }
+                    var input = document.getElementById("submitRegister");
+                    var att = document.createAttribute("onclick");
+                    att.value = 'updateRegister('+id+')';
+                    input.setAttributeNode(att);
+
+                    var btSubmit = document.getElementById("submitRegister"); // Get the first <h1> element in the document
+                    var att2 = btSubmit.getAttributeNode("type");          // Get the class attribute node from <h1>
+                    btSubmit.removeAttributeNode(att2);
+
+                    $('#resultats_recherche').html('<div class="alert alert-info" role="alert">Vous informations ont été ajouté au formulaire<br />Veuillez remplir les informations de connexion</div>');
+                }
+            });
+        }
+        function updateRegister(id) {
+            var dataUsername = $("#fos_user_registration_form_username").val();
+            var dataPassword = $("#fos_user_registration_form_plainPassword_first").val();
+            $.ajax({
+                type: "POST",
+                url: "{{ path('cm_platform_update_by_id')}}",
+                data: {
+                    id: id,
+                    username: dataUsername,
+                    password: dataPassword
+                },
+                cache: false,
+                success: function(data){
+                    if(data == 'ErrorClientRegister'){
+                        $('#resultats_recherche').html('<div class="alert alert-danger" role="alert">Un compte est déjà présent avec cette adresse email/Nom d\'utilisateur</div>');
+                    }
+                    if(data == 'Success'){
+                        $('#resultats_recherche').html('<div class="alert alert-success" role="alert">Inscription réussie ! <br /> Veuillez retourner au formulaire de connexion pour vous identifier</div>');
+                        var inputEmail = document.getElementById("fos_user_registration_form_email");
+                        var inputUsername = document.getElementById("fos_user_registration_form_username");
+                        var inputPassword = document.getElementById("fos_user_registration_form_plainPassword_first");
+                        var inputPasswordVerif = document.getElementById("fos_user_registration_form_plainPassword_second");
+                        var inputNom = document.getElementById("fos_user_registration_form_nom");
+                        var inputPrenom = document.getElementById("fos_user_registration_form_prenom");
+                        var inputAdresse = document.getElementById("fos_user_registration_form_adresse");
+                        var inputTelephone = document.getElementById("fos_user_registration_form_telephone");
+                        var inputSiteWeb = document.getElementById("fos_user_registration_form_webSite");
+                        var inputSubmit = document.getElementById("submitRegister");
+
+                        var att1 = document.createAttribute("readonly");
+                        var att2 = document.createAttribute("readonly");
+                        var att3 = document.createAttribute("readonly");
+                        var att4 = document.createAttribute("readonly");
+                        var att5 = document.createAttribute("readonly");
+                        var att6 = document.createAttribute("readonly");
+                        var att7 = document.createAttribute("readonly");
+                        var att8 = document.createAttribute("readonly");
+                        var att9 = document.createAttribute("readonly");
+                        var att10 = document.createAttribute("disabled");
+
+                        inputEmail.setAttributeNode(att1);
+                        inputUsername.setAttributeNode(att2);
+                        inputPassword.setAttributeNode(att3);
+                        inputPasswordVerif.setAttributeNode(att4);
+                        inputNom.setAttributeNode(att5);
+                        inputPrenom.setAttributeNode(att6);
+                        inputAdresse.setAttributeNode(att7);
+                        inputTelephone.setAttributeNode(att8);
+                        inputSiteWeb.setAttributeNode(att9);
+                        inputSubmit.setAttributeNode(att10);
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}

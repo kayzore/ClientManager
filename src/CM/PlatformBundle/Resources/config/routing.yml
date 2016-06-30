@@ -1,0 +1,61 @@
+# src/CM/PlatformBundle/Resources/config/routing.yml
+
+# Interface principal
+# Affiche un formulaire de connexion
+# Si deja connecté redirection vers list
+cm_platform_home:
+    path:      /
+    defaults:  { _controller: CMPlatformBundle:Platform:index }
+
+# Permet de visualiser un client precis
+cm_platform_view:
+    path:      /view/{id}
+    defaults:  { _controller: CMPlatformBundle:Platform:view }
+    requirements:
+        id: \d+
+
+# Permet de lister les clients
+cm_platform_list:
+    path:      /list
+    defaults:  { _controller: CMPlatformBundle:Platform:list }
+
+# Permet d'ajouter un client
+cm_platform_add:
+    path:      /add
+    defaults:  { _controller: CMPlatformBundle:Platform:add }
+
+# Permet de supprimer un client
+cm_platform_delete:
+    path:      /delete/{id}
+    defaults:  { _controller: CMPlatformBundle:Platform:delete }
+    requirements:
+        id: \d+
+
+# Permet de modifier un client
+cm_platform_edit:
+    path:      /edit/{id}
+    defaults:  { _controller: CMPlatformBundle:Platform:edit }
+    requirements:
+        id: \d+
+
+# Permet de rechercher une fiche client par email
+cm_platform_rechercher_by_email:
+  pattern: /client/searchemail
+  defaults: { _controller: CMPlatformBundle:Platform:searchemail }
+  requirements:
+    _method: POST
+
+# Permet de rechercher une fiche client par id
+cm_platform_rechercher_by_id:
+  pattern: /client/searchid
+  defaults: { _controller: CMPlatformBundle:Platform:searchid }
+  requirements:
+    _method: POST
+
+# Permet d'update un client par son id
+cm_platform_update_by_id:
+  pattern: /client/updateid
+  defaults: { _controller: CMPlatformBundle:Platform:updateid }
+  requirements:
+    _method: POST
+    

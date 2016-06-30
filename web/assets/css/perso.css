@@ -1,0 +1,21 @@
+body{
+  padding-top: 100px;
+  background-color: #CCD7DB;
+}
+
+.listeObject{
+  background-color: white;
+
+  border-style: solid;
+  border-width: 2px;
+
+  border: 2px solid #a1a1a1;
+  padding: 10px 40px; 
+  background: #dddddd;
+  border-radius: 15px;
+
+  word-wrap: break-word;
+
+  margin: 5px;
+  padding: 10px;
+}

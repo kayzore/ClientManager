@@ -1,0 +1,90 @@
+{# src/ISC/PlatformBundle/Resources/views/Platform/actu.html.twig #}
+
+{% extends "::index.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Modification du profil de {{ client.nom }} {{ client.prenom }}
+{% endblock %}
+
+{% block bsFile %}
+    {{ parent() }}
+{% endblock %}
+
+{% block contentBody %}
+    {{ parent() }}
+    <div class="row" style="text-align:center;">
+        <div class="btn-group">
+            <a href="{{ path('cm_platform_list') }}" class="btn btn-primary" role="button">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i> Retour à la liste</i>
+            </a>
+            <a href="{{ path('cm_platform_view', {'id': id}) }}" class="btn btn-primary" role="button">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i> Retour au profil client</i>
+            </a>
+            <a href="{{ path('fos_user_security_logout') }}" class="btn btn-primary" role="button">
+                <i class="fa fa-sign-out" aria-hidden="true"> Déconnexion</i>
+            </a>
+        </div>
+    </div>
+    <br />
+    <div class="well">
+		{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+			{% if not form.vars.valid %}
+				<div class="alert alert-danger">
+				    {{ form_errors(form) }}
+				</div>
+			{% endif %}
+		    <div class="form-group">
+		      	{{ form_label(form.nom, "Nom", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+		      	{{ form_errors(form.nom) }}
+		      	<div class="col-sm-4">
+		        	{{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+		      	</div>
+		    </div>
+		    <div class="form-group">
+		      	{{ form_label(form.prenom, "Prénom", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+		      	{{ form_errors(form.prenom) }}
+		      	<div class="col-sm-4">
+		        	{{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+		      	</div>
+		    </div>
+		    <div class="form-group">
+		      	{{ form_label(form.email, "Email", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+		      	{{ form_errors(form.email) }}
+		      	<div class="col-sm-4">
+		        	{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+		      	</div>
+		    </div>
+		    <div class="form-group">
+		      	{{ form_label(form.adresse, "Adresse", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+		      	{{ form_errors(form.adresse) }}
+		      	<div class="col-sm-4">
+		        	{{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+		      	</div>
+		    </div>
+		    <div class="form-group">
+		      	{{ form_label(form.telephone, "Téléphone", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+		      	{{ form_errors(form.telephone) }}
+		      	<div class="col-sm-4">
+		        	{{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+		      	</div>
+		    </div>
+		    <div class="form-group">
+		      	{{ form_label(form.web_site, "Site Web", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+		      	{{ form_errors(form.web_site) }}
+		      	<div class="col-sm-4">
+		        	{{ form_widget(form.web_site, {'attr': {'class': 'form-control'}}) }}
+		      	</div>
+		    </div>
+	  		{{ form_widget(form.sauvegarder, {'attr': {'class': 'btn btn-primary pull-right'}}) }}
+		  	{{ form_rest(form) }}
+		{{ form_end(form) }}
+	</div>
+	<!-- Site footer -->
+  	<footer class="footer">
+        <p>&copy; {{ 'now'|date('Y') }} ClientManager</p>
+  	</footer>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

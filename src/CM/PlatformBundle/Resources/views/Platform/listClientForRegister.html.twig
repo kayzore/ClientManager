@@ -1,0 +1,38 @@
+{# src/ISC/PlatformBundle/Resources/views/Platform/listClientForRegister.html.twig #}
+
+{% extends "::index.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Accueil
+{% endblock %}
+
+{% block bsFile %}
+    {{ parent() }}
+{% endblock %}
+
+{% block contentBody %}
+    <div class="row">
+        <p>Une fiche client avec cette adresse mail existe déjà, est-ce vous ?</p>
+        <div class="listeObject col-lg-12">
+            <h4>{{ client.nom }} {{ client.prenom }}</h4>
+            
+            <p>
+                <strong>Adresse :</strong> {{ client.adresse }}<br />
+                <strong>Email :</strong> {{ client.email }}<br />
+                <strong>Téléphone :</strong> {{ client.telephone }}<br />
+                <strong>Site web :</strong> {{ client.webSite }}<br />
+            </p>
+
+                <a onclick="addInfos({{ client.id }})" class="btn btn-success btn-block" role="button">
+                    Oui, c'est bien moi</i>
+                </a>
+            
+        </div>
+        <p>Si vous souhaitez associer les informations ci-dessus à votre profil cliquer sur "Oui, c'est bien moi".</p>
+        <p>Si les informations si dessus ne vous concerne pas, merci de ne pas en tenir compte et remplir le formulaire ci-dessous.</p>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

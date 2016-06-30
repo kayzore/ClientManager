@@ -1,0 +1,39 @@
+{# src/CM/PlatformBundle/Resources/views/Platform/listNoClient.html.twig #}
+
+{% extends "::index.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Accueil
+{% endblock %}
+
+{% block bsFile %}
+    {{ parent() }}
+{% endblock %}
+
+{% block contentBody %}
+    {{ parent() }}
+    <div class="row" style="text-align:center;">
+        <div class="btn-group">
+            <a href="{{ path('cm_platform_add') }}" class="btn btn-primary" role="button">
+                <i class="fa fa-user-plus" aria-hidden="true"></i> Ajouter</i>
+            </a>
+            <a href="{{ path('fos_user_security_logout') }}" class="btn btn-primary" role="button">
+                <i class="fa fa-sign-out" aria-hidden="true"> Déconnexion</i>
+            </a>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="listeObject col-lg-12">
+            <div class="alert alert-info" role="alert">Aucun client trouvé, veuillez en ajouter.</div>
+        </div>
+    </div>
+    <!-- Site footer -->
+    <footer class="footer">
+        <p>&copy; {{ 'now'|date('Y') }} ClientManager</p>
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

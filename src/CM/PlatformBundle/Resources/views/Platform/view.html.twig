@@ -1,0 +1,53 @@
+{# src/ISC/PlatformBundle/Resources/views/Platform/actu.html.twig #}
+
+{% extends "::index.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Visualisation du profil de {{ client.nom }} {{ client.prenom }}
+{% endblock %}
+
+{% block bsFile %}
+    {{ parent() }}
+{% endblock %}
+
+{% block contentBody %}
+    {{ parent() }}
+    <div class="row" style="text-align:center;">
+        <div class="btn-group">
+            <a href="{{ path('cm_platform_list') }}" class="btn btn-primary" role="button">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i> Retour à la liste</i>
+            </a>
+            <a href="{{ path('fos_user_security_logout') }}" class="btn btn-primary" role="button">
+                <i class="fa fa-sign-out" aria-hidden="true"> Déconnexion</i>
+            </a>
+        </div>
+    </div>
+    <br />
+    <div class="listeObject col-lg-12">
+        <h1>{{ client.nom }} {{ client.prenom }}</h1>
+        
+        <p>
+            <strong>Adresse :</strong> {{ client.adresse }}<br />
+            <strong>Email :</strong> {{ client.email }}<br />
+            <strong>Téléphone :</strong> {{ client.telephone }}<br />
+            <strong>Site web :</strong> {{ client.webSite }}<br />
+        </p>
+
+        <span class="pull-right" style="text-decoration: none;text-color: black;">
+            <a href="{{ path('cm_platform_edit', {'id': client.id}) }}" class="btn btn-primary btn-xs" role="button">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"> Modifier</i>
+            </a>
+            <a href="{{ path('cm_platform_delete', {'id': client.id}) }}" class="btn btn-danger btn-xs" role="button">
+                <i class="fa fa-trash-o" aria-hidden="true"> Supprimer</i>
+            </a>
+        </span>
+    </div>
+    <!-- Site footer -->
+    <footer class="footer">
+        <p>&copy; {{ 'now'|date('Y') }} ClientManager</p>
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
