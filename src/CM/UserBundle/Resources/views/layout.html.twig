@@ -84,56 +84,64 @@
         function updateRegister(id) {
             var dataUsername = $("#fos_user_registration_form_username").val();
             var dataPassword = $("#fos_user_registration_form_plainPassword_first").val();
-            $.ajax({
-                type: "POST",
-                url: "{{ path('cm_platform_update_by_id')}}",
-                data: {
-                    id: id,
-                    username: dataUsername,
-                    password: dataPassword
-                },
-                cache: false,
-                success: function(data){
-                    if(data == 'ErrorClientRegister'){
-                        $('#resultats_recherche').html('<div class="alert alert-danger" role="alert">Un compte est déjà présent avec cette adresse email/Nom d\'utilisateur</div>');
-                    }
-                    if(data == 'Success'){
-                        $('#resultats_recherche').html('<div class="alert alert-success" role="alert">Inscription réussie ! <br /> Veuillez retourner au formulaire de connexion pour vous identifier</div>');
-                        var inputEmail = document.getElementById("fos_user_registration_form_email");
-                        var inputUsername = document.getElementById("fos_user_registration_form_username");
-                        var inputPassword = document.getElementById("fos_user_registration_form_plainPassword_first");
-                        var inputPasswordVerif = document.getElementById("fos_user_registration_form_plainPassword_second");
-                        var inputNom = document.getElementById("fos_user_registration_form_nom");
-                        var inputPrenom = document.getElementById("fos_user_registration_form_prenom");
-                        var inputAdresse = document.getElementById("fos_user_registration_form_adresse");
-                        var inputTelephone = document.getElementById("fos_user_registration_form_telephone");
-                        var inputSiteWeb = document.getElementById("fos_user_registration_form_webSite");
-                        var inputSubmit = document.getElementById("submitRegister");
+            var dataPassword2 = $("#fos_user_registration_form_plainPassword_second").val();
 
-                        var att1 = document.createAttribute("readonly");
-                        var att2 = document.createAttribute("readonly");
-                        var att3 = document.createAttribute("readonly");
-                        var att4 = document.createAttribute("readonly");
-                        var att5 = document.createAttribute("readonly");
-                        var att6 = document.createAttribute("readonly");
-                        var att7 = document.createAttribute("readonly");
-                        var att8 = document.createAttribute("readonly");
-                        var att9 = document.createAttribute("readonly");
-                        var att10 = document.createAttribute("disabled");
+            if(dataPassword == dataPassword2){
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('cm_platform_update_by_id')}}",
+                    data: {
+                        id: id,
+                        username: dataUsername,
+                        password: dataPassword
+                    },
+                    cache: false,
+                    success: function(data){
+                        if(data == 'ErrorClientRegister'){
+                            $('#resultats_recherche').html('<div class="alert alert-danger" role="alert">Un compte est déjà présent avec cette adresse email/Nom d\'utilisateur</div>');
+                        }
+                        if(data == 'Success'){
+                            $('#resultats_recherche').html('<div class="alert alert-success" role="alert">Inscription réussie ! <br /> Veuillez retourner au formulaire de connexion pour vous identifier</div>');
+                            var inputEmail = document.getElementById("fos_user_registration_form_email");
+                            var inputUsername = document.getElementById("fos_user_registration_form_username");
+                            var inputPassword = document.getElementById("fos_user_registration_form_plainPassword_first");
+                            var inputPasswordVerif = document.getElementById("fos_user_registration_form_plainPassword_second");
+                            var inputNom = document.getElementById("fos_user_registration_form_nom");
+                            var inputPrenom = document.getElementById("fos_user_registration_form_prenom");
+                            var inputAdresse = document.getElementById("fos_user_registration_form_adresse");
+                            var inputTelephone = document.getElementById("fos_user_registration_form_telephone");
+                            var inputSiteWeb = document.getElementById("fos_user_registration_form_webSite");
+                            var inputSubmit = document.getElementById("submitRegister");
 
-                        inputEmail.setAttributeNode(att1);
-                        inputUsername.setAttributeNode(att2);
-                        inputPassword.setAttributeNode(att3);
-                        inputPasswordVerif.setAttributeNode(att4);
-                        inputNom.setAttributeNode(att5);
-                        inputPrenom.setAttributeNode(att6);
-                        inputAdresse.setAttributeNode(att7);
-                        inputTelephone.setAttributeNode(att8);
-                        inputSiteWeb.setAttributeNode(att9);
-                        inputSubmit.setAttributeNode(att10);
+                            var att1 = document.createAttribute("readonly");
+                            var att2 = document.createAttribute("readonly");
+                            var att3 = document.createAttribute("readonly");
+                            var att4 = document.createAttribute("readonly");
+                            var att5 = document.createAttribute("readonly");
+                            var att6 = document.createAttribute("readonly");
+                            var att7 = document.createAttribute("readonly");
+                            var att8 = document.createAttribute("readonly");
+                            var att9 = document.createAttribute("readonly");
+                            var att10 = document.createAttribute("disabled");
+
+                            inputEmail.setAttributeNode(att1);
+                            inputUsername.setAttributeNode(att2);
+                            inputPassword.setAttributeNode(att3);
+                            inputPasswordVerif.setAttributeNode(att4);
+                            inputNom.setAttributeNode(att5);
+                            inputPrenom.setAttributeNode(att6);
+                            inputAdresse.setAttributeNode(att7);
+                            inputTelephone.setAttributeNode(att8);
+                            inputSiteWeb.setAttributeNode(att9);
+                            inputSubmit.setAttributeNode(att10);
+                        }
                     }
-                }
-            });
+                });
+            }
+            else{
+                $('#resultats_recherche').html('<div class="alert alert-danger" role="alert">Les deux champs mot de passe ne correspondent pas.</div>');
+            }
+            
         }
     </script>
 {% endblock %}
