@@ -31,6 +31,12 @@
             <strong>Email :</strong> {{ client.email }}<br />
             <strong>Téléphone :</strong> {{ client.telephone }}<br />
             <strong>Site web :</strong> {{ client.webSite }}<br />
+            <strong>Etat :</strong> 
+            {% if client.enabled == 0 %}
+                <span class="label label-danger"><i class="fa fa-lock" aria-hidden="true"></i> Non membre</span>
+            {% else %}
+                <span class="label label-success"><i class="fa fa-check" aria-hidden="true"></i> Membre</span>
+            {% endif %}
         </p>
 
         <span class="pull-right" style="text-decoration: none;text-color: black;">
