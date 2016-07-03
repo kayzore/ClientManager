@@ -1,0 +1,27 @@
+{% extends "::index.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Erreur 404
+{% endblock %}
+
+{% block bsFile %}
+    {{ parent() }}
+{% endblock %}
+
+{% block contentBody %}
+    {{ parent() }}
+    <div class="listeObject col-lg-12">
+        <h2 style="text-align:center;">{{ status_code }} {{ status_text }}</h2>
+        <p style="text-align:center;">
+            Page introuvable
+        </p>
+    </div>
+    <!-- Site footer -->
+    <footer class="footer">
+        <p>&copy; {{ 'now'|date('Y') }} ClientManager</p>
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
