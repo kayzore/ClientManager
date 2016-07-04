@@ -17,6 +17,9 @@
             <a href="{{ path('cm_platform_list') }}" class="btn btn-primary" role="button">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i> Retour à la liste</i>
             </a>
+            <a href="{{ path('cm_platform_send_invite') }}" class="btn btn-primary" role="button">
+                <i class="fa fa-share-square-o" aria-hidden="true"></i> Inviter</i>
+            </a>
             <a href="{{ path('fos_user_security_logout') }}" class="btn btn-primary" role="button">
                 <i class="fa fa-sign-out" aria-hidden="true"> Déconnexion</i>
             </a>
@@ -24,6 +27,10 @@
     </div>
     <br />
     <div class="well">
+    	<div class="loading" style="text-align:center;"><i class="fa fa-spinner fa-spin fa-fw"></i></div>
+		<div id="resultats_recherche"> 
+		    
+		</div>
 		{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 			{% if not form.vars.valid %}
 				<div class="alert alert-danger">
@@ -72,7 +79,7 @@
 		        	{{ form_widget(form.web_site, {'attr': {'class': 'form-control'}}) }}
 		      	</div>
 		    </div>
-	  		{{ form_widget(form.sauvegarder, {'attr': {'class': 'btn btn-primary pull-right'}}) }}
+	  		{{ form_widget(form.sauvegarder, {'attr': {'class': 'btn btn-primary pull-right', 'onclick': ''}}) }}
 		  	{{ form_rest(form) }}
 		{{ form_end(form) }}
 	</div>
@@ -84,4 +91,54 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $(".loading").hide();
+            $('#form_email').keyup(function() {
+                var motcle = $("#form_email").val();
+
+                if(motcle.indexOf('@') >= 0 && motcle.indexOf('.') >= 0){
+                    $(".loading").show();
+                    var DATA = 'motcle=' + motcle;
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('cm_platform_rechercher_by_email')}}",
+                        data: DATA,
+                        cache: false,
+                        success: function(data){
+                            $('#resultats_recherche').html(data);
+                            $(".loading").hide();
+                        },
+                        statusCode: {
+                            500: function() {
+                                $(".loading").hide();
+                            }
+                        }
+                    });
+                }
+
+                
+            });
+        });
+        function addInfos(id) {
+            var DATA = 'id=' + id;
+            $.ajax({
+                type: "POST",
+                url: "{{ path('cm_platform_rechercher_by_id')}}",
+                data: DATA,
+                cache: false,
+                success: function(data){
+                    var queryParameters = {
+                        nom: document.getElementById("form_nom").value = data.nom,
+                        prenom: document.getElementById("form_prenom").value = data.prenom,
+                        adresse: document.getElementById("form_adresse").value = data.adresse,
+                        telephone: document.getElementById("form_telephone").value = data.telephone,
+                        website: document.getElementById("form_web_site").value = data.website
+                    }
+
+                    $('#resultats_recherche').html('<div class="alert alert-info" role="alert">Les informations ont été ajoutées au formulaire</div>');
+                }
+            });
+        }
+    </script>
 {% endblock %}

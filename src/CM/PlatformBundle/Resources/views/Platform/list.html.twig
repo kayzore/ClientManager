@@ -17,6 +17,9 @@
             <a href="{{ path('cm_platform_add') }}" class="btn btn-primary" role="button">
                 <i class="fa fa-user-plus" aria-hidden="true"></i> Ajouter</i>
             </a>
+            <a href="{{ path('cm_platform_send_invite') }}" class="btn btn-primary" role="button">
+                <i class="fa fa-share-square-o" aria-hidden="true"></i> Inviter</i>
+            </a>
             <a href="{{ path('fos_user_security_logout') }}" class="btn btn-primary" role="button">
                 <i class="fa fa-sign-out" aria-hidden="true"> Déconnexion</i>
             </a>
@@ -35,9 +38,13 @@
                         <a href="{{ path('cm_platform_view', {'id': client.0.id}) }}" class="btn btn-primary btn-xs" role="button">
                             <i class="fa fa-user" aria-hidden="true"> Afficher</i>
                         </a>
-                        <a href="{{ path('cm_platform_edit', {'id': client.0.id}) }}" class="btn btn-primary btn-xs" role="button">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"> Modifier</i>
-                        </a>
+                        {% if client.0.enabled == 0 %}
+                            <a href="{{ path('cm_platform_edit', {'id': client.0.id}) }}" class="btn btn-primary btn-xs" role="button">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"> Modifier</i>
+                            </a>
+                        {% else %}
+                            <span class="label label-success"><i class="fa fa-check" aria-hidden="true"></i> Membre</span>
+                        {% endif %}
                         <a href="{{ path('cm_platform_delete', {'id': client.0.id}) }}" class="btn btn-danger btn-xs" role="button">
                             <i class="fa fa-trash-o" aria-hidden="true"> Supprimer</i>
                         </a>

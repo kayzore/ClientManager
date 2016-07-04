@@ -31,11 +31,13 @@ class LinkUserClient
 
     /**
      * @var integer
-     * @ORM\ManyToOne(targetEntity="CM\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CM\UserBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $userClientId;
 
+
+    
 
     /**
      * Get id
@@ -73,10 +75,10 @@ class LinkUserClient
     /**
      * Set userClientId
      *
-     * @param integer $userClientId
+     * @param \CM\UserBundle\Entity\User $userClientId
      * @return LinkUserClient
      */
-    public function setUserClientId($userClientId)
+    public function setUserClientId(\CM\UserBundle\Entity\User $userClientId)
     {
         $this->userClientId = $userClientId;
 
@@ -86,7 +88,7 @@ class LinkUserClient
     /**
      * Get userClientId
      *
-     * @return integer 
+     * @return \CM\UserBundle\Entity\User 
      */
     public function getUserClientId()
     {

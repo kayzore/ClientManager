@@ -104,22 +104,40 @@ class PlatformController extends Controller
 	    $form->handleRequest($request);
 
 	    if ($form->isValid()) {
+	    	$em = $this->getDoctrine()->getManager();
 			$user = $this->container->get('security.context')->getToken()->getUser();
 	    	$user->getId();
 
-		    $em = $this->getDoctrine()->getManager();
-	      	$em->persist($client);
-	      	$em->flush();
+	    	$userClient = $em->getRepository('CMUserBundle:User')->findOneByEmail($client->getEmail());
 
-	      	$linkUserClient = new LinkUserClient();
-	      	$linkUserClient->setUserId($user->getId());
-		    $linkUserClient->setUserClientId($client);
-	      	$em->persist($linkUserClient);
-	      	$em->flush();
+	    	if(!is_null($userClient)){
+	    		echo "<br />1";
+			    var_dump($userClient->getId());
 
-	      	$request->getSession()->getFlashBag()->add('notice', 'Client bien modifié.');
-	      	
-	      	return $this->redirect($this->generateUrl('cm_platform_view', array('id' => $client->getId())));
+		      	$linkUserClient = new LinkUserClient();
+		      	$linkUserClient->setUserId($user->getId());
+			    $linkUserClient->setUserClientId($userClient);
+				$em->detach($client);
+		      	$em->persist($linkUserClient);
+		      	$em->flush();
+
+		      	return $this->redirect($this->generateUrl('cm_platform_view', array('id' => $userClient->getId())));
+	    	}
+	    	else{
+	    		echo "<br />2";
+		      	$em->persist($client);
+		      	$em->flush();
+
+		      	$linkUserClient = new LinkUserClient();
+		      	$linkUserClient->setUserId($user->getId());
+			    $linkUserClient->setUserClientId($client);
+		      	$em->persist($linkUserClient);
+		      	$em->flush();
+		      	
+		      	return $this->redirect($this->generateUrl('cm_platform_view', array('id' => $client->getId())));
+	    	}
+
+		    
 	    }
 
 	    return $this->render('CMPlatformBundle:Platform:add.html.twig', array(
@@ -146,18 +164,45 @@ class PlatformController extends Controller
 	    if ($form->handleRequest($request)->isValid()) {
 	    	$user = $this->container->get('security.context')->getToken()->getUser();
         	$user->getId();
+        	if($client->isEnabled() == '1'){
+        		$repository = $em->getRepository('CMPlatformBundle:LinkUserClient');
+				$clientLink = $repository->findOneBy(array('userId' => $user, 'userClientId' => $id));
 
-			$repository = $em->getRepository('CMPlatformBundle:LinkUserClient');
-			$clientLink = $repository->findOneBy(array('userId' => $user, 'userClientId' => $id));
+				$em->remove($clientLink);
 
-			$em->remove($clientLink);
-	      	$em->remove($client);
+		      	$em->flush();
 
-	      	$em->flush();
+		      	$request->getSession()->getFlashBag()->add('info', "Le client a bien été supprimée.");
 
-	      	$request->getSession()->getFlashBag()->add('info', "Le client a bien été supprimée.");
+		      	return $this->redirect($this->generateUrl('cm_platform_list'));
 
-	      	return $this->redirect($this->generateUrl('cm_platform_list'));
+        	}
+        	else{
+        		$repository = $em->getRepository('CMPlatformBundle:LinkUserClient');
+				$clientLink = $repository->findBy(array('userClientId' => $id));
+				if(count($clientLink) > 1){
+					$clientLinkForRemove = $repository->findOneBy(array('userId' => $user, 'userClientId' => $id));
+					$em->remove($clientLinkForRemove);
+
+			      	$em->flush();
+
+			      	$request->getSession()->getFlashBag()->add('info', "Le client a bien été supprimée.");
+
+			      	return $this->redirect($this->generateUrl('cm_platform_list'));
+				}
+				else{
+					$em->remove($clientLink);
+			      	$em->remove($client);
+
+			      	$em->flush();
+
+			      	$request->getSession()->getFlashBag()->add('info', "Le client a bien été supprimée.");
+
+			      	return $this->redirect($this->generateUrl('cm_platform_list'));
+				}
+        	}
+
+			
 	    }
 
 	    return $this->render('CMPlatformBundle:Platform:delete.html.twig', array(

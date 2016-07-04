@@ -19,6 +19,13 @@ cm_platform_list:
     path:      /list
     defaults:  { _controller: CMPlatformBundle:Platform:list }
 
+# Permet de lier une fiche client par son id
+cm_platform_add_client:
+    pattern: /client/addclientid
+    defaults: { _controller: CMPlatformBundle:Platform:addclientid }
+    requirements:
+        _method: POST
+
 # Permet d'ajouter un client
 cm_platform_add:
     path:      /add
@@ -40,22 +47,21 @@ cm_platform_edit:
 
 # Permet de rechercher une fiche client par email
 cm_platform_rechercher_by_email:
-  pattern: /client/searchemail
-  defaults: { _controller: CMPlatformBundle:Platform:searchemail }
-  requirements:
-    _method: POST
+    pattern: /client/searchemail
+    defaults: { _controller: CMPlatformBundle:Platform:searchemail }
+    requirements:
+        _method: POST
 
 # Permet de rechercher une fiche client par id
 cm_platform_rechercher_by_id:
-  pattern: /client/searchid
-  defaults: { _controller: CMPlatformBundle:Platform:searchid }
-  requirements:
-    _method: POST
+    pattern: /client/searchid
+    defaults: { _controller: CMPlatformBundle:Platform:searchid }
+    requirements:
+        _method: POST
 
 # Permet d'update un client par son id
 cm_platform_update_by_id:
-  pattern: /client/updateid
-  defaults: { _controller: CMPlatformBundle:Platform:updateid }
-  requirements:
-    _method: POST
-    
+    pattern: /client/updateid
+    defaults: { _controller: CMPlatformBundle:Platform:updateid }
+    requirements:
+        _method: POST
