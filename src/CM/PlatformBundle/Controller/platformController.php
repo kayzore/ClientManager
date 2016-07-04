@@ -111,8 +111,6 @@ class PlatformController extends Controller
 	    	$userClient = $em->getRepository('CMUserBundle:User')->findOneByEmail($client->getEmail());
 
 	    	if(!is_null($userClient)){
-	    		echo "<br />1";
-			    var_dump($userClient->getId());
 
 		      	$linkUserClient = new LinkUserClient();
 		      	$linkUserClient->setUserId($user->getId());
@@ -124,7 +122,6 @@ class PlatformController extends Controller
 		      	return $this->redirect($this->generateUrl('cm_platform_view', array('id' => $userClient->getId())));
 	    	}
 	    	else{
-	    		echo "<br />2";
 		      	$em->persist($client);
 		      	$em->flush();
 
